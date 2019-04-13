@@ -1,0 +1,24 @@
+{
+  "development": {
+
+    "username": "prashara",
+    "password": null,
+    "database": "empdb",
+    "host": "localhost",
+    "dialect": "mysql"
+  },
+  "test": {
+    "username": "",
+    "password": null,
+    "database": "",
+    "host": "",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "prashara",
+    "password": null,
+    "database": "",
+    "host": "localhost",
+    "dialect": "mysql"
+  }
+}
