@@ -36,6 +36,7 @@
 
     //Routes
     var authRoute = require('./app/routes/auth.js')(app,passport);
+    const mailRoute = require('./app/routes/email.js');
 
 
     //load passport strategies
