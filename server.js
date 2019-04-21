@@ -53,7 +53,7 @@
 
 
 
-	app.listen(process.env.PORT,process.env.IP,function(err) {
+	app.listen(12223, (err) => {
  
     if (!err)
         console.log("Site is live");
