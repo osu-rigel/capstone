@@ -36,6 +36,7 @@
 
     //Routes
     var authRoute = require('./app/routes/auth.js')(app,passport);
+    const mailRoute = require('./app/routes/email.js');
 
 
     //load passport strategies
@@ -52,7 +53,7 @@
 
 
 
-	app.listen(process.env.PORT,process.env.IP,function(err) {
+	app.listen(12223, (err) => {
  
     if (!err)
         console.log("Site is live");
