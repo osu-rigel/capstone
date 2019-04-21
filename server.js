@@ -1,66 +1,54 @@
     var express    = require('express')
+    var path = require('path')
     var app        = express()
-    var passport   = require('passport')
-    var session    = require('express-session')
+    var cookieParser = require('cookie-parser')
     var bodyParser = require('body-parser')
-    var env        = require('dotenv').load()
     var exphbs     = require('express-handlebars')
+    
+    var index = require('./routes/index')
+    
+// Authentication stuff
+    var session    = require('express-session')
+    var passport   = require('passport')
 
 
 
-    //For BodyParser
-    app.use(bodyParser.urlencoded({ extended: true }));
-    app.use(bodyParser.json());
-
-
-     // For Passport
-    app.use(session({ secret: 'keyboard cat',resave: true, saveUninitialized:true})); // session secret
-    app.use(passport.initialize());
-    app.use(passport.session()); // persistent login sessions
-
-
-     //For Handlebars
-    app.set('views', './app/views')
+//For Handlebars
+    app.set('views', './views')
     app.engine('hbs', exphbs({extname: '.hbs'}));
     app.set('view engine', '.hbs');
     
+//For BodyParser
+    app.use(bodyParser.urlencoded({ extended: false }));
+    app.use(bodyParser.json());
+    app.use(cookieParser());
+    app.use(express.static(path.join(__dirname, 'public')));
 
-    app.get('/', function(req, res){
-	  res.render('landing');
+
+
+/**************************************
+app.get('/', function(req, res){
+	  res.render('index');
 	});
+********************************************/	
 
 
-	//Models
-    var models = require("./app/models");
+app.use(session({
+  secret: 'asdfasfovasvsdasvs',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: true }
+}));
 
+app.use(passport.initialize());
+app.use(passport.session());
 
-    //Routes
-    var authRoute = require('./app/routes/auth.js')(app,passport);
+app.use('/', index);
 
-
-    //load passport strategies
-    require('./app/config/passport/passport.js')(passport,models.user);
-
-
-    //Sync Database
-   	models.sequelize.sync().then(function(){
-    console.log('Nice! Database looks fine')
-
-    }).catch(function(err){
-    console.log(err,"Something went wrong with the Database Update!")
-    });
-
-
-
-	app.listen(process.env.PORT,process.env.IP,function(err) {
+app.listen(process.env.PORT,process.env.IP,function(err) {
  
     if (!err)
         console.log("Site is live");
     else console.log(err)
  
 });
-
-
-
-
-    
